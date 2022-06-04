@@ -1,0 +1,93 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>Products</title>
+<body>
+    
+    <center><h1 style="color:green;">Products</h1></center>
+    <center><a href="aboutme.html" style="color: purple;"><em>About Me</em></a></center>
+    <label for="Search"></label>
+    <center><input type="text" id="Search" placeholder="Enter something"></center>
+    
+    <center><button onclick="find()">SUBMIT</button></center>
+    <ul>
+  
+    </ul>
+
+    <script>
+
+        var list = document.getElementsByTagName('ul')[0];
+        fetch("product_dummy_data.json")
+                .then(response => response.json())
+                .then(json => {
+                    json['products'].forEach(element => {
+                            
+                            var newDiv = document.createElement('li');
+                            newDiv.class = "card";
+                            var image = document.createElement('img');                           
+                            var name =document.createElement('h1');
+                            var desc = document.createElement('h3');
+                            image.src = element['thumbnail'];
+                            name.innerHTML = element['title'];
+                            desc.innerHTML = element['description'];
+                            newDiv.appendChild(image);
+                            newDiv.appendChild(name);
+                            newDiv.appendChild(desc);                       
+                            list.appendChild(newDiv);
+                    });
+                });
+
+        function find () {
+            var input = document.getElementById("Search");
+            var query = input.value;
+            var list = document.getElementsByTagName('ul')[0];
+            list.innerHTML = "";
+            if (query === '') {
+                fetch("product_dummy_data.json")
+                .then(response => response.json())
+                .then(json => {
+                    json['products'].forEach(element => {
+                            
+                            var newDiv = document.createElement('li');
+                            newDiv.class = "card";
+                            var image = document.createElement('img');                           
+                            var name =document.createElement('h1');
+                            var desc = document.createElement('h3');
+                            image.src = element['thumbnail'];
+                            name.innerHTML = element['title'];
+                            desc.innerHTML = element['description'];
+                            newDiv.appendChild(image);
+                            newDiv.appendChild(name);
+                            newDiv.appendChild(desc);                       
+                            list.appendChild(newDiv);
+                    });
+                });
+                return;
+            }
+            fetch("product_dummy_data.json")
+                .then(response => response.json())
+                .then(json => {
+                    json['products'].forEach(element => {
+                        var containsInTitle = element['title'].includes(query);
+                        var containsInDesc = element['description'].includes(query);
+                        if (containsInDesc || containsInTitle) {
+                            var newDiv = document.createElement('li');
+                            newDiv.class = "card";
+                            var image = document.createElement('img');                           
+                            var name =document.createElement('h1');
+                            var desc = document.createElement('h3');
+                            image.src = element['thumbnail'];
+                            name.innerHTML = element['title'];
+                            desc.innerHTML = element['description'];
+                            newDiv.appendChild(image);
+                            newDiv.appendChild(name);
+                            newDiv.appendChild(desc);                       
+                            list.appendChild(newDiv);
+                        }
+                    });
+                });
+        }
+    </script>
+</body>
+<head>
+</html>
